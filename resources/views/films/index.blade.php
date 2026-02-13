@@ -24,7 +24,7 @@
 
                         <small class="text-muted">
                             {{ $movie->release_date?->format('Y') }},
-                            Danil Godbasenko
+                            {{ $movie->directors()->first()->{app()->getLocale() === 'ua' ? 'name_ua' : 'name_en'} }}
                         </small>
 
                     </div>

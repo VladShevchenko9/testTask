@@ -2,12 +2,13 @@
 
 return [
     'active' => 'Активний',
+    'composers' => 'Композитори',
     'create' => 'Створити фільм',
     'createFilm' => 'Створити фільм',
     'create_movie' => 'Створити фільм',
     'description_en' => 'Опис (EN)',
     'description_ua' => 'Опис (UA)',
-    'director' => 'Режисер',
+    'directors' => 'Режисери',
     'email' => 'Емейл',
     'end_date' => 'Дата завершення прокату',
     'enterCredentials' => 'Введіть ваші дані',

@@ -2,12 +2,13 @@
 
 return [
     'active' => 'Active',
+    'composers' => 'Composers',
     'create' => 'Create Movie',
     'createFilm' => 'Create a film',
     'create_movie' => 'Create Movie',
     'description_en' => 'Description (EN)',
     'description_ua' => 'Description (UA)',
-    'director' => 'Director',
+    'directors' => 'Directors',
     'email' => 'Email',
     'end_date' => 'End Date',
     'enterCredentials' => 'Please enter your credentials',

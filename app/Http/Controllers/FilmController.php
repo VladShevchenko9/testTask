@@ -11,9 +11,10 @@ class FilmController extends Controller
     public function index(): View
     {
         $films = Film::query()
+            ->with(['directors', 'writers', 'actors', 'composers'])
             ->where('status', true)
             ->orderByDesc('films.release_date')
-            ->paginate(3);
+            ->paginate(4);
 
         return view('films.index', compact('films'));
     }

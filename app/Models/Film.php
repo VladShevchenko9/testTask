@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Database\Factories\FilmFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * @property boolean status
@@ -57,5 +58,32 @@ class Film extends Model
         }
 
         return $this->title_en;
+    }
+
+    public function persons(): BelongsToMany
+    {
+        return $this->belongsToMany(Person::class, 'film_person')
+            ->withPivot(['role'])
+            ->orderByDesc('film_person.id');
+    }
+
+    public function directors(): BelongsToMany
+    {
+        return $this->persons()->wherePivot('role', Person::DIRECTOR);
+    }
+
+    public function writers(): BelongsToMany
+    {
+        return $this->persons()->wherePivot('role', Person::WRITER);
+    }
+
+    public function actors(): BelongsToMany
+    {
+        return $this->persons()->wherePivot('role', Person::ACTOR);
+    }
+
+    public function composers(): BelongsToMany
+    {
+        return $this->persons()->wherePivot('role', Person::COMPOSER);
     }
 }
