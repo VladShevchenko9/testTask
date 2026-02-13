@@ -1,5 +1,45 @@
 @extends('layouts.bootstrap')
 @section('pageTitle', 'Films')
 @section('content')
-    Films
+    <div class="row g-4">
+
+        @forelse($films as $movie)
+            <div class="col-lg-3 col-md-4 col-sm-6">
+
+                <div class="card border-0 shadow-sm h-100 movie-card">
+
+                    <img
+                        src="{{ $movie->poster }}"
+                        class="card-img-top"
+                        style="height: 340px; object-fit: cover;"
+                        alt="{{ $movie->title }}"
+                    >
+
+                    <div class="card-body">
+
+                        <h6 class="fw-bold mb-1">
+                            {{ $movie->title }}
+                        </h6>
+
+                        <small class="text-muted">
+                            {{ $movie->release_date?->format('Y') }},
+                            Danil Godbasenko
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+        @empty
+            <div class="col-12 text-center py-5">
+                <h5 class="text-muted">Нет фильмов</h5>
+            </div>
+        @endforelse
+
+    </div>
+
+    <div class="mt-5 d-flex justify-content-center">
+        {{ $films->links('pagination::bootstrap-5') }}
+    </div>
 @endsection
