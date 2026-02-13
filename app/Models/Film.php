@@ -45,6 +45,7 @@ class Film extends Model
         'release_date' => 'datetime',
         'start_date' => 'datetime',
         'end_date' => 'datetime',
+        'screenshots' => 'array',
     ];
 
     public function getTitleAttribute(): string

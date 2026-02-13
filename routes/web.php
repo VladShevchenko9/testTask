@@ -13,12 +13,11 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),
     'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath']
 ], function () {
     Route::get('/', [FilmController::class, 'index'])->name('films.index');
+    Route::get('/show-film/{id}', [FilmController::class, 'showView'])->name('films.showView');
 
     Route::get('/login', function () {
         return view('auth.login');
     })->name('auth.login');
-
-
     Route::post('/login', [AuthController::class, 'login'])->name('login');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
@@ -26,5 +25,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),
         Route::get('/admin', function () {
             return view('admin.home');
         })->name('admin.home');
+
+        Route::get('/create-film', [FilmController::class, 'createView'])->name('films.createView');
+        Route::post('/create-film', [FilmController::class, 'create'])->name('films.create');
     });
 });

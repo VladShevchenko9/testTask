@@ -7,13 +7,14 @@
             <div class="col-lg-3 col-md-4 col-sm-6">
 
                 <div class="card border-0 shadow-sm h-100 movie-card">
-
-                    <img
-                        src="{{ $movie->poster }}"
-                        class="card-img-top"
-                        style="height: 340px; object-fit: cover;"
-                        alt="{{ $movie->title }}"
-                    >
+                    <a href="{{ route('films.showView', ['id' => $movie->id]) }}">
+                        <img
+                            src="{{ Storage::url($movie->poster) }}"
+                            class="card-img-top"
+                            style="height: 340px; object-fit: cover;"
+                            alt="{{ $movie->title }}"
+                        >
+                    </a>
 
                     <div class="card-body">
 
@@ -33,7 +34,7 @@
             </div>
         @empty
             <div class="col-12 text-center py-5">
-                <h5 class="text-muted">Нет фильмов</h5>
+                <h5 class="text-muted">@lang('messages.noFilms')</h5>
             </div>
         @endforelse
 

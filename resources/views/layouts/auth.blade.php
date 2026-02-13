@@ -26,6 +26,9 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="#">@lang('messages.home')</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{{ route('films.createView') }}">@lang('messages.createFilm')</a>
+                    </li>
                 </ul>
                 <div class="d-flex align-items-center mx-3">
                     @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
