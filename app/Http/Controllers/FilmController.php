@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\FilmRequest;
 use App\Models\Film;
+use App\Models\Person;
 use Illuminate\View\View;
 
 class FilmController extends Controller
@@ -21,7 +22,9 @@ class FilmController extends Controller
 
     public function createView()
     {
-        return view('films.create');
+        $people = Person::query()->orderBy('name_ua')->get();
+
+        return view('films.create', compact('people'));
     }
 
     public function showView(int $id): View
@@ -50,9 +53,35 @@ class FilmController extends Controller
                 ->toArray();
         }
 
-        Film::create($data);
+        $film = Film::create($data);
 
-        return redirect()
-            ->route('films.index');
+        $directors = $this->makePersonsWithRole($request->input('directors', []), Person::DIRECTOR);
+        $film->persons()->syncWithoutDetaching($directors);
+
+        $writers = $this->makePersonsWithRole($request->input('writers', []), Person::WRITER);
+        $film->persons()->syncWithoutDetaching($writers);
+
+        $actors = $this->makePersonsWithRole($request->input('actors', []), Person::ACTOR);
+        $film->persons()->syncWithoutDetaching($actors);
+
+        $composers = $this->makePersonsWithRole($request->input('composers', []), Person::COMPOSER);
+        $film->persons()->syncWithoutDetaching($composers);
+
+        return redirect()->route('films.index');
+    }
+
+    private function makePersonsWithRole(array $ids, string $role): array
+    {
+        $result = [];
+
+        foreach (array_unique($ids) as $id) {
+            $id = (int)$id;
+
+            if ($id > 0) {
+                $result[$id] = ['role' => $role];
+            }
+        }
+
+        return $result;
     }
 }

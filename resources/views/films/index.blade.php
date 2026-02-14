@@ -24,7 +24,7 @@
 
                         <small class="text-muted">
                             {{ $movie->release_date?->format('Y') }},
-                            {{ $movie->directors()->first()->name }}
+                            {{ $movie->directors()->first() ?  $movie->directors()->first()->name : '—'}}
                         </small>
 
                     </div>

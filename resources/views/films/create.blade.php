@@ -23,7 +23,7 @@
             <div class="col-md-9">
                 <label class="form-label">@lang('messages.trailerId')</label>
                 <input
-                    type="url"
+                    type="text"
                     name="trailer"
                     class="form-control"
                     value="{{ old('trailer') }}"
@@ -108,7 +108,64 @@
             </div>
 
         </div>
+        <hr class="my-5">
 
+        <div class="row g-4">
+
+            <div class="col-md-6">
+                <label class="form-label">🎬 @lang('messages.directors')</label>
+                <select name="directors[]" class="form-select" multiple size="8">
+                    @foreach($people as $person)
+                        <option value="{{ $person->id }}"
+                            @selected(collect(old('directors', []))->contains($person->id))
+                        >
+                            {{ $person->name }}
+                        </option>
+                    @endforeach
+                </select>
+                <div class="form-text">@lang('messages.hold_ctrl')</div>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">✍️ @lang('messages.writers')</label>
+                <select name="writers[]" class="form-select" multiple size="8">
+                    @foreach($people as $person)
+                        <option value="{{ $person->id }}"
+                            @selected(collect(old('writers', []))->contains($person->id))
+                        >
+                            {{ $person->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">🧑‍🎤 @lang('messages.stars')</label>
+                <select name="actors[]" class="form-select" multiple size="8">
+                    @foreach($people as $person)
+                        <option value="{{ $person->id }}"
+                            @selected(collect(old('actors', []))->contains($person->id))
+                        >
+                            {{ $person->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">🎼 @lang('messages.composers')</label>
+                <select name="composers[]" class="form-select" multiple size="8">
+                    @foreach($people as $person)
+                        <option value="{{ $person->id }}"
+                            @selected(collect(old('composers', []))->contains($person->id))
+                        >
+                            {{ $person->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+        </div>
         <div class="mt-5">
             <button class="btn btn-primary px-5">
                 @lang('messages.create')

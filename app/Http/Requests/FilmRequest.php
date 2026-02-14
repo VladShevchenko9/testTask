@@ -22,17 +22,25 @@ class FilmRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status' => 'required|boolean',
-            'title_ua' => 'required|string|max:255',
-            'title_en' => 'required|string|max:255',
-            'description_ua' => 'required|string',
+            'actors' => ['nullable', 'array'],
+            'actors.' => ['integer', 'exists:people,id', 'distinct'],
+            'composers' => ['nullable', 'array'],
+            'composers.' => ['integer', 'exists:people,id', 'distinct'],
             'description_en' => 'required|string',
-            'poster' => 'required|image|max:2048',
-            'screenshots.*' => 'required|image|max:2048',
-            'trailer' => 'required|string',
-            'release_date' => 'required|date',
-            'start_date' => 'required|date',
+            'description_ua' => 'required|string',
+            'directors' => ['nullable', 'array'],
+            'directors.' => ['integer', 'exists:people,id', 'distinct'],
             'end_date' => 'required|date',
+            'poster' => 'required|image|max:2048',
+            'release_date' => 'required|date',
+            'screenshots.*' => 'required|image|max:2048',
+            'start_date' => 'required|date',
+            'status' => 'required|boolean',
+            'title_en' => 'required|string|max:255',
+            'title_ua' => 'required|string|max:255',
+            'trailer' => 'required|string',
+            'writers' => ['nullable', 'array'],
+            'writers.' => ['integer', 'exists:people,id', 'distinct'],
         ];
     }
 }
