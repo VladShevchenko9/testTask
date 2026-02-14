@@ -1,5 +1,8 @@
 *
 !.gitignore
+!films/
+!films/posters/
+!films/screenshots/
 !films/posters/J26OQEvIkjdkYKiCgxX82QbvaVWsqIh8uAidfSsA.png
 !films/screenshots/y2ny3dWaQeHDb6eHYtcQXATJmf6THI8yVPxGKP3P.png
 !films/screenshots/yhzLYBrEHh22E3QphShKoiQhtKo4u9m9tZJ7q52V.png
