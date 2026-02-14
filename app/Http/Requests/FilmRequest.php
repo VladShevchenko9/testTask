@@ -41,6 +41,8 @@ class FilmRequest extends FormRequest
             'trailer' => 'required|string',
             'writers' => ['nullable', 'array'],
             'writers.' => ['integer', 'exists:people,id', 'distinct'],
+            'tags' => ['nullable', 'array'],
+            'tags.*' => ['integer', 'exists:tags,id'],
         ];
     }
 }

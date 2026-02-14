@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FilmController;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -31,5 +32,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),
         Route::post('/create-film', [FilmController::class, 'create'])->name('films.create');
         Route::put('/edit-film/{id}', [FilmController::class, 'edit'])->name('films.edit');
         Route::delete('/delete-film/{film}', [FilmController::class, 'destroy'])->name('films.destroy');
+
+        Route::get('/tags', [TagController::class, 'index'])->name('tags.index');
+        Route::get('/tags/create', [TagController::class, 'create'])->name('tags.create');
+        Route::post('/tags', [TagController::class, 'store'])->name('tags.store');
+        Route::delete('/tags/{tag}', [TagController::class, 'destroy'])->name('tags.destroy');
     });
 });

@@ -51,6 +51,10 @@
                             <a class="nav-link active" aria-current="page"
                                href="{{ route('films.createView') }}">@lang('messages.createFilm')</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page"
+                               href="{{ route('tags.index') }}">@lang('messages.tags')</a>
+                        </li>
                     @endauth
                 </ul>
                 <div class="d-flex align-items-center mx-3">

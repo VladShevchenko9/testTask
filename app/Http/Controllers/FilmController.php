@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\FilmRequest;
 use App\Models\Film;
 use App\Models\Person;
+use App\Models\Tag;
 use Illuminate\View\View;
 
 class FilmController extends Controller
@@ -23,30 +24,32 @@ class FilmController extends Controller
     public function createView()
     {
         $people = Person::query()->orderBy('name_ua')->get();
+        $tags = Tag::orderBy('name_ua')->get();
 
-        return view('films.create', compact('people'));
+        return view('films.create', compact('people', 'tags'));
     }
 
     public function editView(int $id)
     {
         $film = Film::query()
-            ->with(['directors', 'writers', 'actors', 'composers'])
+            ->with(['directors', 'writers', 'actors', 'composers', 'tags'])
             ->find($id);
 
-        if (! $film || $film->status === false) {
+        if (!$film || $film->status == false) {
             abort(404);
         }
 
         $people = Person::query()->orderBy('name_ua')->get();
+        $tags = Tag::orderBy('name_ua')->get();
 
-        return view('films.edit', compact('people', 'film'));
+        return view('films.edit', compact('people', 'film', 'tags'));
     }
 
     public function showView(int $id): View
     {
-        $film = Film::query()->find($id);
+        $film = Film::query()->with(['directors', 'writers', 'actors', 'composers', 'tags'])->find($id);
 
-        if (!$film || $film->status === false) {
+        if (!$film || $film->status == false) {
             abort(404);
         }
 
@@ -69,28 +72,18 @@ class FilmController extends Controller
         }
 
         $film = Film::create($data);
-
-        $directors = $this->makePersonsWithRole($request->input('directors', []), Person::DIRECTOR);
-        $film->persons()->syncWithoutDetaching($directors);
-
-        $writers = $this->makePersonsWithRole($request->input('writers', []), Person::WRITER);
-        $film->persons()->syncWithoutDetaching($writers);
-
-        $actors = $this->makePersonsWithRole($request->input('actors', []), Person::ACTOR);
-        $film->persons()->syncWithoutDetaching($actors);
-
-        $composers = $this->makePersonsWithRole($request->input('composers', []), Person::COMPOSER);
-        $film->persons()->syncWithoutDetaching($composers);
+        $this->setFilmRelations($film, $request);
 
         return redirect()->route('films.index');
     }
+
     public function edit(FilmRequest $request, int $id)
     {
         $data = $request->validated();
 
         $film = Film::query()->find($id);
 
-        if (! $film || $film->status === false) {
+        if (!$film || $film->status == false) {
             abort(404);
         }
 
@@ -105,33 +98,9 @@ class FilmController extends Controller
         }
 
         $film->update($data);
-
-        // Собираем всё и делаем ОДИН sync (полная синхронизация)
-        $syncData = array_replace(
-            $this->makePersonsWithRole($request->input('directors', []), Person::DIRECTOR),
-            $this->makePersonsWithRole($request->input('writers', []), Person::WRITER),
-            $this->makePersonsWithRole($request->input('actors', []), Person::ACTOR),
-            $this->makePersonsWithRole($request->input('composers', []), Person::COMPOSER),
-        );
-
-        $film->persons()->sync($syncData);
+        $this->setFilmRelations($film, $request);
 
         return redirect()->route('films.index');
-    }
-
-    private function makePersonsWithRole(array $ids, string $role): array
-    {
-        $result = [];
-
-        foreach (array_unique($ids) as $id) {
-            $id = (int)$id;
-
-            if ($id > 0) {
-                $result[$id] = ['role' => $role];
-            }
-        }
-
-        return $result;
     }
 
     public function destroy(Film $film)
@@ -142,5 +111,15 @@ class FilmController extends Controller
         return redirect()
             ->route('films.index')
             ->with('success', 'Film deleted successfully.');
+    }
+
+    private function setFilmRelations(Film $film, FilmRequest $request): void
+    {
+        $film->tags()->sync($request->input('tags', []));
+
+        $film->setPersons($request->input('directors', []), Person::DIRECTOR);
+        $film->setPersons($request->input('writers', []), Person::WRITER);
+        $film->setPersons($request->input('actors', []), Person::ACTOR);
+        $film->setPersons($request->input('composers', []), Person::COMPOSER);
     }
 }

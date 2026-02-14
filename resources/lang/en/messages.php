@@ -3,7 +3,6 @@
 return [
     'active' => 'Active',
     'composers' => 'Composers',
-    'create' => 'Create Movie',
     'createFilm' => 'Create a film',
     'create_movie' => 'Create Movie',
     'current' => 'Current',
@@ -35,4 +34,12 @@ return [
     'trailerId' => 'YouTube trailer ID',
     'welcome' => 'Welcome, :name',
     'writers' => 'Writers',
+    'tags' => 'Tags',
+    'create_tag' => 'Create Tag',
+    'actions' => 'Actions',
+    'delete' => 'Delete',
+    'noTags' => 'No tags yet',
+    'create' => 'Create',
+    'back' => 'Back',
+    'slug' => 'Slug',
 ];

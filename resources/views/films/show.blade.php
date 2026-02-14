@@ -23,11 +23,15 @@
                 {{ $film->description }}
             </p>
 
-            <div class="d-flex flex-wrap gap-2 mb-4">
-                <span class="badge text-bg-light border fw-normal px-3 py-2">Fantasy</span>
-                <span class="badge text-bg-light border fw-normal px-3 py-2">Scientist</span>
-                <span class="badge text-bg-light border fw-normal px-3 py-2">Surrealism</span>
-            </div>
+            @if($film->tags->isNotEmpty())
+                <div class="d-flex flex-wrap gap-2 mb-4">
+                    @foreach($film->tags as $tag)
+                        <span class="badge text-bg-light border fw-normal px-3 py-2">
+                            {{ $tag->name }}
+                        </span>
+                    @endforeach
+                </div>
+            @endif
 
             <div class="small">
                 <div class="d-flex align-items-center mb-2">

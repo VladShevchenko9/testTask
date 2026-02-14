@@ -7,6 +7,7 @@ use Database\Factories\FilmFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 /**
  * @property boolean status
@@ -98,6 +99,11 @@ class Film extends Model
         return $this->persons()->wherePivot('role', Person::COMPOSER);
     }
 
+    public function tags(): MorphToMany
+    {
+        return $this->morphToMany(Tag::class, 'taggable');
+    }
+
     public function localizedNames(string $relation)
     {
         if (! $this->relationLoaded($relation)) {
@@ -107,5 +113,16 @@ class Film extends Model
         $localeField = app()->getLocale() === 'ua' ? 'name_ua' : 'name_en';
 
         return $this->{$relation}->pluck($localeField)->filter()->join(', ') ?: '—';
+    }
+
+    public function setPersons(array $ids, string $role): void
+    {
+        $this->persons()
+            ->wherePivot('role', $role)
+            ->detach();
+
+        foreach ($ids as $id) {
+            $this->persons()->attach($id, ['role' => $role]);
+        }
     }
 }

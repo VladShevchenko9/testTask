@@ -35,6 +35,7 @@
                     name="trailer"
                     class="form-control"
                     value="{{ old('trailer') }}"
+                    required
                 >
             </div>
 
@@ -67,6 +68,7 @@
                     name="description_ua"
                     class="form-control"
                     rows="5"
+                    required
                 >{{ old('description_ua') }}</textarea>
             </div>
 
@@ -76,6 +78,7 @@
                     name="description_en"
                     class="form-control"
                     rows="5"
+                    required
                 >{{ old('description_en') }}</textarea>
             </div>
 
@@ -86,6 +89,7 @@
                     name="poster"
                     class="form-control"
                     accept="image/*"
+                    required
                 >
             </div>
 
@@ -97,22 +101,23 @@
                     class="form-control"
                     multiple
                     accept="image/*"
+                    required
                 >
             </div>
 
             <div class="col-md-4">
                 <label class="form-label">@lang('messages.release_date')</label>
-                <input type="datetime-local" name="release_date" class="form-control">
+                <input type="datetime-local" name="release_date" class="form-control" required>
             </div>
 
             <div class="col-md-4">
                 <label class="form-label">@lang('messages.start_date')</label>
-                <input type="datetime-local" name="start_date" class="form-control">
+                <input type="datetime-local" name="start_date" class="form-control" required>
             </div>
 
             <div class="col-md-4">
                 <label class="form-label">@lang('messages.end_date')</label>
-                <input type="datetime-local" name="end_date" class="form-control">
+                <input type="datetime-local" name="end_date" class="form-control" required>
             </div>
 
         </div>
@@ -173,9 +178,23 @@
             </div>
 
         </div>
+        <br>
+        <div class="col-12">
+            <label class="form-label">🏷️ @lang('messages.tags')</label>
+            <select name="tags[]" class="form-select" multiple size="6">
+                @foreach($tags as $tag)
+                    <option
+                        value="{{ $tag->id }}"
+                        @selected(collect(old('tags', []))->contains($tag->id))
+                    >
+                        {{ $tag->name }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
         <div class="mt-5">
             <button class="btn btn-primary px-5">
-                @lang('messages.create')
+                @lang('messages.createFilm')
             </button>
         </div>
     </form>

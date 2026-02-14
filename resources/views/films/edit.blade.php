@@ -40,6 +40,7 @@
                     name="trailer"
                     class="form-control"
                     value="{{ old('trailer', $film->trailer) }}"
+                    required
                 >
             </div>
 
@@ -68,13 +69,13 @@
             <div class="col-md-6">
                 <label class="form-label">@lang('messages.description_ua')</label>
                 <textarea name="description_ua" class="form-control"
-                          rows="5">{{ old('description_ua', $film->description_ua) }}</textarea>
+                          rows="5" required>{{ old('description_ua', $film->description_ua) }}</textarea>
             </div>
 
             <div class="col-md-6">
                 <label class="form-label">@lang('messages.description_en')</label>
                 <textarea name="description_en" class="form-control"
-                          rows="5">{{ old('description_en', $film->description_en) }}</textarea>
+                          rows="5" required>{{ old('description_en', $film->description_en) }}</textarea>
             </div>
 
             <div class="col-md-6">
@@ -107,6 +108,7 @@
                     name="release_date"
                     class="form-control"
                     value="{{ old('release_date', optional($film->release_date)->format('Y-m-d\TH:i')) }}"
+                    required
                 >
             </div>
 
@@ -117,6 +119,7 @@
                     name="start_date"
                     class="form-control"
                     value="{{ old('start_date', optional($film->start_date)->format('Y-m-d\TH:i')) }}"
+                    required
                 >
             </div>
 
@@ -127,6 +130,7 @@
                     name="end_date"
                     class="form-control"
                     value="{{ old('end_date', optional($film->end_date)->format('Y-m-d\TH:i')) }}"
+                    required
                 >
             </div>
 
@@ -187,6 +191,25 @@
                 </select>
             </div>
 
+        </div>
+
+        @php
+            $selectedTags = old('tags', $film->tags->pluck('id')->all());
+        @endphp
+
+        <div class="col-12">
+            <label class="form-label">🏷️ @lang('messages.tags')</label>
+
+            <select name="tags[]" class="form-select" multiple size="6">
+                @foreach($tags as $tag)
+                    <option
+                        value="{{ $tag->id }}"
+                        @selected(in_array($tag->id, $selectedTags))
+                    >
+                        {{ $tag->name }}
+                    </option>
+                @endforeach
+            </select>
         </div>
 
         <div class="mt-5">
