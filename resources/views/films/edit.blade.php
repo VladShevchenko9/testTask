@@ -6,7 +6,15 @@
     <h3 class="mb-4 fw-bold">
         🎬 @lang('messages.edit_movie')
     </h3>
-
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <form action="{{ route('films.edit', ['id' => $film->id]) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
@@ -59,12 +67,14 @@
 
             <div class="col-md-6">
                 <label class="form-label">@lang('messages.description_ua')</label>
-                <textarea name="description_ua" class="form-control" rows="5">{{ old('description_ua', $film->description_ua) }}</textarea>
+                <textarea name="description_ua" class="form-control"
+                          rows="5">{{ old('description_ua', $film->description_ua) }}</textarea>
             </div>
 
             <div class="col-md-6">
                 <label class="form-label">@lang('messages.description_en')</label>
-                <textarea name="description_en" class="form-control" rows="5">{{ old('description_en', $film->description_en) }}</textarea>
+                <textarea name="description_en" class="form-control"
+                          rows="5">{{ old('description_en', $film->description_en) }}</textarea>
             </div>
 
             <div class="col-md-6">
@@ -73,7 +83,8 @@
 
                 @if($film->poster)
                     <div class="form-text">
-                        @lang('messages.current'): <a href="{{ Storage::url($film->poster) }}" target="_blank">poster</a>
+                        @lang('messages.current'): <a href="{{ Storage::url($film->poster) }}"
+                                                      target="_blank">poster</a>
                     </div>
                 @endif
             </div>

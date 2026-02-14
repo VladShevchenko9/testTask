@@ -84,15 +84,24 @@
             </div>
         </div>
 
-        <div class="col-12 col-md-9 col-lg-10">
-            <div class="ratio ratio-16x9 border rounded-2 overflow-hidden bg-dark">
-                <iframe
-                    src="https://www.youtube.com/embed/{{ $film->trailer }}"
-                    title="@lang('messages.trailer')"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowfullscreen
-                ></iframe>
+        @php
+            $now = now();
+            $canShowTrailer = $film->trailer
+                && $now->greaterThanOrEqualTo($film->start_date)
+                && $now->lessThanOrEqualTo($film->end_date);
+        @endphp
+
+        @if($canShowTrailer)
+            <div class="col-12 col-md-9 col-lg-10">
+                <div class="ratio ratio-16x9 border rounded-2 overflow-hidden bg-dark">
+                    <iframe
+                        src="https://www.youtube.com/embed/{{ $film->trailer }}"
+                        title="@lang('messages.trailer')"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen
+                    ></iframe>
+                </div>
             </div>
-        </div>
+        @endif
     </div>
 @endsection

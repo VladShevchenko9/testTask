@@ -6,7 +6,15 @@
     <h3 class="mb-4 fw-bold">
         🎬 @lang('messages.create_movie')
     </h3>
-
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <form action="{{ route('films.create') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
