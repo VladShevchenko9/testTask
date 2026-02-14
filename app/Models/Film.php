@@ -86,4 +86,15 @@ class Film extends Model
     {
         return $this->persons()->wherePivot('role', Person::COMPOSER);
     }
+
+    public function localizedNames(string $relation)
+    {
+        if (! $this->relationLoaded($relation)) {
+            $this->load($relation);
+        }
+
+        $localeField = app()->getLocale() === 'ua' ? 'name_ua' : 'name_en';
+
+        return $this->{$relation}->pluck($localeField)->filter()->join(', ') ?: '—';
+    }
 }

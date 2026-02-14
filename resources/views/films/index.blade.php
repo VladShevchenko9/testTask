@@ -24,7 +24,7 @@
 
                         <small class="text-muted">
                             {{ $movie->release_date?->format('Y') }},
-                            {{ $movie->directors()->first()->{app()->getLocale() === 'ua' ? 'name_ua' : 'name_en'} }}
+                            {{ $movie->directors()->first()->name }}
                         </small>
 
                     </div>

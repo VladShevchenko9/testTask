@@ -21,4 +21,15 @@ class Person extends Model
         'name_en',
         'photo',
     ];
+
+    public function getNameAttribute(): string
+    {
+        $locale = app()->getLocale();
+
+        if ($locale == 'ua') {
+            return $this->name_ua;
+        }
+
+        return $this->name_en;
+    }
 }

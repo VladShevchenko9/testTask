@@ -35,7 +35,7 @@
                         @lang('messages.directors'):
                     </div>
                     <div class="text-muted">
-                        {{ $film->directors->pluck(app()->getLocale() === 'ua' ? 'name_ua' : 'name_en')->join(', ') ?: '—' }}
+                        {{ $film->localizedNames('directors') }}
                     </div>
                 </div>
 
@@ -44,7 +44,7 @@
                         @lang('messages.writers'):
                     </div>
                     <div class="text-muted">
-                        {{ $film->writers->pluck(app()->getLocale() === 'ua' ? 'name_ua' : 'name_en')->join(', ') ?: '—' }}
+                        {{ $film->localizedNames('writers') }}
                     </div>
                 </div>
 
@@ -53,7 +53,7 @@
                         @lang('messages.stars'):
                     </div>
                     <div class="text-muted">
-                        {{ $film->actors->pluck(app()->getLocale() === 'ua' ? 'name_ua' : 'name_en')->join(', ') ?: '—' }}
+                        {{ $film->localizedNames('actors') }}
                     </div>
                 </div>
 
@@ -62,7 +62,7 @@
                         @lang('messages.composers'):
                     </div>
                     <div class="text-muted">
-                        {{ $film->composers->pluck(app()->getLocale() === 'ua' ? 'name_ua' : 'name_en')->join(', ') ?: '—' }}
+                        {{ $film->localizedNames('composers') }}
                     </div>
                 </div>
             </div>
