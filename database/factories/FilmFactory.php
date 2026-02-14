@@ -23,10 +23,10 @@ class FilmFactory extends Factory
             'title_en' => fake()->sentence(3),
             'description_ua' => $this->fakeUaSentence(),
             'description_en' => fake()->paragraph(),
-            'poster' => 'films/posters/HaieMlbEkBPKYghBoGHVNIbFOsRzqJO6NE6tYk64.png',
+            'poster' => 'films/posters/J26OQEvIkjdkYKiCgxX82QbvaVWsqIh8uAidfSsA.png',
             'screenshots' => [
-                'films/screenshots/EFiqOYyJRVQ8MZMbiVlAGV7jIrkZUjKYxsA2OoaN.png',
-                'films/screenshots/7UkiljELErnJjS1N0fnwOix4HgY62wJI8RxNqRiX.png',
+                'films/screenshots/y2ny3dWaQeHDb6eHYtcQXATJmf6THI8yVPxGKP3P.png',
+                'films/screenshots/yhzLYBrEHh22E3QphShKoiQhtKo4u9m9tZJ7q52V.png',
             ],
             'trailer' => fake()->url(),
             'release_date' => fake()->date(),
