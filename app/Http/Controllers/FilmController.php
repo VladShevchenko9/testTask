@@ -84,4 +84,14 @@ class FilmController extends Controller
 
         return $result;
     }
+
+    public function destroy(Film $film)
+    {
+        $film->persons()->detach();
+        $film->delete();
+
+        return redirect()
+            ->route('films.index')
+            ->with('success', 'Film deleted successfully.');
+    }
 }

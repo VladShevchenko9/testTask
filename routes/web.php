@@ -28,5 +28,6 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),
 
         Route::get('/create-film', [FilmController::class, 'createView'])->name('films.createView');
         Route::post('/create-film', [FilmController::class, 'create'])->name('films.create');
+        Route::delete('/delete-film/{film}', [FilmController::class, 'destroy'])->name('films.destroy');
     });
 });

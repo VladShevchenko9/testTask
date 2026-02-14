@@ -7,6 +7,21 @@
             <div class="col-lg-3 col-md-4 col-sm-6">
 
                 <div class="card border-0 shadow-sm h-100 movie-card">
+                    @auth
+                        <form
+                            action="{{ route('films.destroy', $movie->id) }}"
+                            method="POST"
+                            class="position-absolute top-0 end-0 m-2"
+                            onsubmit="return confirm('Delete this film?')"
+                        >
+                            @csrf
+                            @method('DELETE')
+
+                            <button class="btn btn-sm btn-danger shadow-sm">
+                                🗑
+                            </button>
+                        </form>
+                    @endauth
                     <a href="{{ route('films.showView', ['id' => $movie->id]) }}">
                         <img
                             src="{{ Storage::url($movie->poster) }}"
