@@ -27,7 +27,9 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),
         })->name('admin.home');
 
         Route::get('/create-film', [FilmController::class, 'createView'])->name('films.createView');
+        Route::get('/edit-film/{id}', [FilmController::class, 'editView'])->name('films.editView');
         Route::post('/create-film', [FilmController::class, 'create'])->name('films.create');
+        Route::put('/edit-film/{id}', [FilmController::class, 'edit'])->name('films.edit');
         Route::delete('/delete-film/{film}', [FilmController::class, 'destroy'])->name('films.destroy');
     });
 });

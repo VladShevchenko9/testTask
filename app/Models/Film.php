@@ -60,6 +60,17 @@ class Film extends Model
         return $this->title_en;
     }
 
+    public function getDescriptionAttribute(): string
+    {
+        $locale = app()->getLocale();
+
+        if ($locale == 'ua') {
+            return $this->description_ua;
+        }
+
+        return $this->description_en;
+    }
+
     public function persons(): BelongsToMany
     {
         return $this->belongsToMany(Person::class, 'film_person')

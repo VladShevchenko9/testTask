@@ -27,6 +27,21 @@ class FilmController extends Controller
         return view('films.create', compact('people'));
     }
 
+    public function editView(int $id)
+    {
+        $film = Film::query()
+            ->with(['directors', 'writers', 'actors', 'composers'])
+            ->find($id);
+
+        if (! $film || $film->status === false) {
+            abort(404);
+        }
+
+        $people = Person::query()->orderBy('name_ua')->get();
+
+        return view('films.edit', compact('people', 'film'));
+    }
+
     public function showView(int $id): View
     {
         $film = Film::query()->find($id);
@@ -66,6 +81,40 @@ class FilmController extends Controller
 
         $composers = $this->makePersonsWithRole($request->input('composers', []), Person::COMPOSER);
         $film->persons()->syncWithoutDetaching($composers);
+
+        return redirect()->route('films.index');
+    }
+    public function edit(FilmRequest $request, int $id)
+    {
+        $data = $request->validated();
+
+        $film = Film::query()->find($id);
+
+        if (! $film || $film->status === false) {
+            abort(404);
+        }
+
+        if ($request->hasFile('poster')) {
+            $data['poster'] = $request->file('poster')->store('films/posters', 'public');
+        }
+
+        if ($request->hasFile('screenshots')) {
+            $data['screenshots'] = collect($request->file('screenshots'))
+                ->map(fn($file) => $file->store('films/screenshots', 'public'))
+                ->toArray();
+        }
+
+        $film->update($data);
+
+        // Собираем всё и делаем ОДИН sync (полная синхронизация)
+        $syncData = array_replace(
+            $this->makePersonsWithRole($request->input('directors', []), Person::DIRECTOR),
+            $this->makePersonsWithRole($request->input('writers', []), Person::WRITER),
+            $this->makePersonsWithRole($request->input('actors', []), Person::ACTOR),
+            $this->makePersonsWithRole($request->input('composers', []), Person::COMPOSER),
+        );
+
+        $film->persons()->sync($syncData);
 
         return redirect()->route('films.index');
     }
